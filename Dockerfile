@@ -1,12 +1,11 @@
-FROM ghcr.io/linuxserver/baseimage-ubuntu:jammy
+# 使用 gitpod/workspace-full:latest 作为基础镜像
+FROM --platform=linux/amd64 gitpod/workspace-full:latest
+# 设置环境变量
+ENV DEBIAN_FRONTEND="noninteractive" \
+    CODE_RELEASE="1.92.0"
 
-# set version label
-ARG BUILD_DATE
-ARG VERSION
-ARG CODE_RELEASE
-LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
-LABEL maintainer="aptalca"
-
+# 切换到 root 用户
+USER root
 # environment settings
 ARG DEBIAN_FRONTEND="noninteractive"
 ENV HOME="/config"
