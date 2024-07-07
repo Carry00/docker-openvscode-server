@@ -1,6 +1,4 @@
-# 使用 gitpod/workspace-full:latest 作为基础镜像
-FROM --platform=linux/amd64 gitpod/workspace-full:latest
-
+FROM ghcr.io/linuxserver/baseimage-ubuntu:jammy
 # set version label
 ARG BUILD_DATE
 ARG VERSION
