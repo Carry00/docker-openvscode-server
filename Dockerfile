@@ -1,4 +1,5 @@
-FROM ghcr.io/linuxserver/baseimage-ubuntu:jammy
+# FROM ghcr.io/linuxserver/baseimage-ubuntu:jammy
+FROM gitpod/workspace-full
 # set version label
 ARG BUILD_DATE
 ARG VERSION
