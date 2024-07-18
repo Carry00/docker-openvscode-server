@@ -45,6 +45,5 @@ RUN \
 
 # add local files
 COPY /root /
-ENTRYPOINT [ "/bin/sh", "-c", "exec /app/openvscode-server/bin/openvscode-server --host 0.0.0.0 --without-connection-token \"${@}\"", "--" ]
 # ports and volumes
 EXPOSE 3000
