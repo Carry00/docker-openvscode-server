@@ -41,7 +41,8 @@ RUN \
   rm -rf \
     /tmp/* \
     /var/lib/apt/lists/* \
-    /var/tmp/*
+    /var/tmp/* \
+    /root
 
 # add local files
 COPY /root /
