@@ -8,7 +8,7 @@ ARG CODE_RELEASE
 LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
 LABEL maintainer="aptalca"
 
-# environment settings
+# environment settings
 ARG DEBIAN_FRONTEND="noninteractive"
 ENV HOME="/config"
 
@@ -22,7 +22,8 @@ RUN \
     nano \
     net-tools \
     netcat \
-    sudo && \
+    sudo \
+    zsh && \
   echo "**** install openvscode-server ****" && \
   if [ -z ${CODE_RELEASE+x} ]; then \
     CODE_RELEASE=$(curl -sX GET "https://api.github.com/repos/gitpod-io/openvscode-server/releases/latest" \
@@ -36,6 +37,8 @@ RUN \
   tar xf \
     /tmp/openvscode-server.tar.gz -C \
     /app/openvscode-server/ --strip-components=1 && \
+  echo "**** install Oh My Zsh ****" && \
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
   echo "**** clean up ****" && \
   apt-get clean && \
   rm -rf \
@@ -43,7 +46,23 @@ RUN \
     /var/lib/apt/lists/* \
     /var/tmp/* 
 
+# set default shell to zsh
+RUN chsh -s $(which zsh)
+
 # add local files
 COPY /root /
+
+# set permissions for gitpod user
+RUN chown -R gitpod:gitpod /app/openvscode-server
+
+# set workspace directory
+WORKDIR /workspace
+
 # ports and volumes
 EXPOSE 3000
+
+# switch to gitpod user
+USER gitpod
+
+# set default command
+CMD ["/app/openvscode-server/bin/openvscode-server", "--host", "0.0.0.0", "--without-connection-token"]
